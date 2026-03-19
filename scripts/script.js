@@ -347,4 +347,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Запускаємо функцію
     fetchProjects();
+    
+});
+// ==========================================
+// ЛОГІКА БУРГЕР-МЕНЮ
+// ==========================================
+const burgerMenu = document.getElementById('burger-menu');
+const navLinks = document.querySelector('.nav-links');
+const navItems = document.querySelectorAll('.nav-links a');
+
+// 1. Відкриваємо/закриваємо меню при кліку на бургер
+burgerMenu.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+    
+    // Міняємо іконку (Бургер ☰ <-> Хрестик ✕)
+    if (navLinks.classList.contains('active')) {
+        burgerMenu.innerHTML = '✕';
+    } else {
+        burgerMenu.innerHTML = '☰';
+    }
+});
+
+// 2. Закриваємо меню автоматично, коли клікаємо на будь-яке посилання
+navItems.forEach(item => {
+    item.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+        burgerMenu.innerHTML = '☰';
+    });
 });
