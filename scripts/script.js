@@ -289,8 +289,8 @@ document.addEventListener('DOMContentLoaded', () => {
             <div id="projects-loader" class="loader-container">
                 <div class="spinner"></div>
                 <div>
-                    <p style="margin: 0; color: #fff;">Підключаємось до сервера...</p>
-                    <p class="loader-hint">(Перший запуск після паузи може зайняти до 50 секунд)</p>
+                    <p style="margin: 0; color: #fff;">Connecting to the server...</p>
+                    <p class="loader-hint">(The first start after a pause can take up to 50 seconds)</p>
                 </div>
             </div>
         `;
