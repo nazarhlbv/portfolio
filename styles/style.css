@@ -214,6 +214,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 80px; /* Велика відстань між проєктами */
+    align-items: flex-start; /* Додали це сюди, щоб картки не розтягувалися! */
 }
 
 /* Картка проєкту: зліва картинка, справа текст */
@@ -755,8 +756,74 @@ section:last-of-type {
 .project-card:nth-child(3) { animation-delay: 0.3s; }
 .project-card:nth-child(4) { animation-delay: 0.4s; }
 .project-card:nth-child(5) { animation-delay: 0.5s; }
-.projects-grid {
-    display: grid;
-    /* Твої існуючі стилі сітки */
-    align-items: start; /* Щоб картки не розтягувалися дивно під час анімації */
+
+/* =========================================
+   МОБІЛЬНА АДАПТАЦІЯ (Телефони та планшети)
+   ========================================= */
+
+@media (max-width: 768px) {
+    /* 1. Головний екран (Hero) */
+    .hero h1 {
+        font-size: 2.2rem; /* Зменшуємо величезний заголовок */
+    }
+    .hero p {
+        font-size: 1rem;
+        padding: 0 15px; /* Щоб текст не прилипав до країв екрана */
+    }
+
+    /* 2. Сітка проєктів (Робимо в одну колонку) */
+    .projects-grid {
+        grid-template-columns: 1fr; /* Усі картки стають в один ряд зверху вниз */
+        gap: 20px;
+        padding: 0 15px;
+    }
+
+    /* 3. Картка проєкту */
+    .project-card {
+        margin: 0 auto;
+        width: 100%; /* Картка займає всю ширину екрана телефону */
+    }
+
+    /* 4. Загальні відступи секцій */
+    section {
+        padding: 50px 0; /* Менші відступи між блоками на телефоні */
+    }
+
+    /* 5. Шапка сайту (Меню) */
+    .nav-wrapper {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px; /* Відстань між логотипом та меню */
+    }
+
+    .nav-links {
+        display: flex;
+        flex-wrap: wrap; /* Дозволяє перенос на новий рядок */
+        justify-content: center;
+        gap: 15px; /* Менша відстань між кнопками на телефоні */
+        padding: 0;
+    }
+
+    .nav-links a {
+        font-size: 0.9rem; /* Трохи менший шрифт */
+    }
+
+    /* Відступ від логотипу до посилань */
+    header .logo {
+        margin-bottom: 15px;
+    }
+
+    /* Вирівнюємо самі посилання */
+    header nav ul {
+        display: flex;
+        flex-wrap: wrap; /* Якщо посилань багато, вони акуратно перенесуться на новий рядок */
+        justify-content: center;
+        gap: 15px; /* Відстань між пунктами меню */
+        padding: 0;
+    }
+
+    /* Трохи зменшуємо шрифт кнопок для телефону */
+    header nav ul li a {
+        font-size: 0.9rem;
+    }
 }
