@@ -318,7 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <img src="${p.img}" alt="${p.title}" class="portfolio-img">
                             <div class="image-overlay-hint">
                                 <span class="dot-orange"></span> 
-                                <span>Dynamic Project</span>
+                                <span>Hover for full color</span>
                             </div>
                         </div>
                         
