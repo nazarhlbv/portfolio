@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel - Manage Portfolio</title>
+    <style>
+        body { font-family: sans-serif; background: #050505; color: white; padding: 50px; max-width: 800px; margin: 0 auto; }
+        h2 { text-align: center; color: #FF5500; margin-top: 40px; }
+        .admin-form { display: flex; flex-direction: column; gap: 15px; margin-bottom: 50px; padding: 20px; border: 1px solid #333; }
+        input, textarea, button { padding: 10px; font-size: 16px; background: transparent; border: 1px solid #737373; color: white; }
+        button { background: #FF5500; border: none; cursor: pointer; font-weight: bold; text-transform: uppercase; }
+        button:hover { background: #e64d00; }
+        
+        .project-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #333; background: #111; margin-bottom: 5px;}
+        .project-title { font-size: 1.2rem; font-weight: bold; }
+        .btn-delete { background: #cc0000; padding: 5px 15px; font-size: 14px; margin-left: 10px;}
+        .btn-delete:hover { background: #ff0000; }
+        .btn-move { background: #333; padding: 5px 10px; font-size: 14px; margin: 0 2px;}
+        .btn-move:hover { background: #555; }
+        .btn-move:disabled { opacity: 0.3; cursor: not-allowed; }
+        .review-text { margin: 5px 0 0; font-size: 14px; color: #888; }
+        .rating-stars { color: #FF5500; margin-left: 10px; }
+
+        #loginScreen { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 60vh; }
+        #loginScreen input { margin-bottom: 15px; text-align: center; }
+        #adminContent { display: none; }
+    </style>
+</head>
+<body>
+
+    <div id="loginScreen">
+        <h2>Вхід в Адмін-панель</h2>
+        <input type="password" id="adminPassword" placeholder="Введіть пароль">
+        <button onclick="checkPassword()">Увійти</button>
+    </div>
+
+    <div id="adminContent">
+        <h2>Додати новий проєкт</h2>
+        <form class="admin-form" id="adminForm">
+            <input type="text" id="p-title" placeholder="Назва проєкту" required>
+            <textarea id="p-desc" rows="3" placeholder="Опис проєкту..." required></textarea>
+            <input type="text" id="p-tech" placeholder="Технології (через кому)" required>
+            <input type="text" id="p-link" placeholder="Посилання (https://...)" required>
+            <input type="text" id="p-img" placeholder="Шлях до картинки (images/photo.png)" required>
+            <button type="submit">Добавити в базу</button>
+        </form>
+
+        <h2>Існуючі проєкти (налаштування порядку)</h2>
+        <div id="projectsList"></div>
+
+        <h2>Існуючі відгуки</h2>
+        <div id="reviewsList"></div>
+    </div>
+
+    <script>
+        // ТУТ ВАЖЛИВО: Оскільки ти тестуєш на комп'ютері, змінимо тимчасово на 127.0.0.1
+        // Перед тим як пушити на GitHub, поверни сюди своє посилання Render!
+        const apiUrl = 'https://nazar-portfolio-api.onrender.com'; 
+        let currentProjects = []; // Масив для збереження поточного порядку
+
+        document.getElementById('adminPassword').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') checkPassword();
+        });
+
+        function checkPassword() {
+            const pass = document.getElementById('adminPassword').value;
+            if (pass === 'admin2026') {
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('adminContent').style.display = 'block';
+                loadProjects();
+                loadReviewsAdmin();
+            } else { alert('Невірний пароль!'); }
+        }
+
+        // ==========================================
+        // ПРОЄКТИ ТА СОРТУВАННЯ
+        // ==========================================
+        document.getElementById('adminForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const newProject = {
+                title: document.getElementById('p-title').value,
+                desc: document.getElementById('p-desc').value,
+                tech_stack: document.getElementById('p-tech').value,
+                link: document.getElementById('p-link').value,
+                img: document.getElementById('p-img').value
+            };
+            try {
+                const response = await fetch(`${apiUrl}/add-project`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newProject)
+                });
+                if (response.ok) {
+                    document.getElementById('adminForm').reset();
+                    loadProjects(); 
+                }
+            } catch (err) { alert('Помилка сервера!'); }
+        });
+
+        async function loadProjects() {
+            const list = document.getElementById('projectsList');
+            list.innerHTML = 'Завантаження...';
+            try {
+                const response = await fetch(`${apiUrl}/projects`);
+                currentProjects = await response.json();
+                renderProjects();
+            } catch (err) { list.innerHTML = 'Помилка завантаження.'; }
+        }
+
+        function renderProjects() {
+            const list = document.getElementById('projectsList');
+            list.innerHTML = '';
+            currentProjects.forEach((p, index) => {
+                list.innerHTML += `
+                    <div class="project-item">
+                        <span class="project-title">${p.title}</span>
+                        <div>
+                            <button class="btn-move" onclick="moveUp(${index})" ${index === 0 ? 'disabled' : ''}>⬆️</button>
+                            <button class="btn-move" onclick="moveDown(${index})" ${index === currentProjects.length - 1 ? 'disabled' : ''}>⬇️</button>
+                            <button class="btn-delete" onclick="deleteProject(${p.id})">Видалити</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Логіка переміщення вгору
+        async function moveUp(index) {
+            if (index === 0) return;
+            // Міняємо місцями у масиві
+            const temp = currentProjects[index];
+            currentProjects[index] = currentProjects[index - 1];
+            currentProjects[index - 1] = temp;
+            renderProjects(); // Малюємо новий порядок
+            await saveNewOrder(); // Відправляємо в базу
+        }
+
+        // Логіка переміщення вниз
+        async function moveDown(index) {
+            if (index === currentProjects.length - 1) return;
+            const temp = currentProjects[index];
+            currentProjects[index] = currentProjects[index + 1];
+            currentProjects[index + 1] = temp;
+            renderProjects();
+            await saveNewOrder();
+        }
+
+        // Збереження нового порядку в базу
+        async function saveNewOrder() {
+            const orderData = currentProjects.map((p, index) => ({
+                id: p.id,
+                display_order: index
+            }));
+
+            try {
+                await fetch(`${apiUrl}/projects/order`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(orderData)
+                });
+            } catch (err) { console.error('Помилка збереження порядку'); }
+        }
+
+        async function deleteProject(id) {
+            if (!confirm('Точно видалити цей проєкт?')) return;
+            try {
+                const response = await fetch(`${apiUrl}/projects/${id}`, { method: 'DELETE' });
+                if (response.ok) loadProjects();
+            } catch (err) { alert('Помилка при видаленні!'); }
+        }
+
+        // ==========================================
+        // ВІДГУКИ
+        // ==========================================
+        async function loadReviewsAdmin() {
+            const list = document.getElementById('reviewsList');
+            try {
+                const response = await fetch(`${apiUrl}/reviews`);
+                const reviews = await response.json();
+                list.innerHTML = '';
+                reviews.forEach(r => {
+                    list.innerHTML += `
+                        <div class="project-item">
+                            <div>
+                                <span class="project-title">${r.name}</span>
+                                <span class="rating-stars">${r.rating} ★</span>
+                                <p class="review-text">"${r.text}"</p>
+                            </div>
+                            <button class="btn-delete" onclick="deleteReview(${r.id})">Видалити</button>
+                        </div>
+                    `;
+                });
+            } catch (err) { list.innerHTML = 'Помилка завантаження.'; }
+        }
+
+        async function deleteReview(id) {
+            if (!confirm('Точно видалити цей відгук?')) return;
+            try {
+                const response = await fetch(`${apiUrl}/reviews/${id}`, { method: 'DELETE' });
+                if (response.ok) loadReviewsAdmin();
+            } catch (err) { alert('Помилка при видаленні!'); }
+        }
+    </script>
+</body>
+</html>

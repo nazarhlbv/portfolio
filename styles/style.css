@@ -1,0 +1,732 @@
+/* ========================================== */
+/* 1. БАЗОВІ НАЛАШТУВАННЯ (МІНІМАЛІЗМ)        */
+/* ========================================== */
+
+:root {
+    --bg-black: #050505;       /* Майже абсолютний чорний */
+    --text-white: #ffffff;     /* Чистий білий */
+    --text-gray: #737373;      /* Стильний нейтральний сірий */
+    --accent-orange: #FF5500;  /* Яскравий, різкий помаранчевий */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html {
+    scroll-behavior: smooth;
+    /* Це дуже важлива штука! Вона каже браузеру зупиняти скрол на 100px вище заголовка, 
+       щоб твоя напівпрозора шапка меню не перекривала текст */
+    scroll-padding-top: 100px; 
+}
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-black);
+    color: var(--text-white);
+    line-height: 1.5;
+    /* Додаємо плавне прокручування */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px; /* Більші відступи по краях для "повітря" */
+}
+
+/* ========================================== */
+/* 2. НАВІГАЦІЯ (БЕЗ СКЛА, ТІЛЬКИ ТЕКСТ)      */
+/* ========================================== */
+
+.nav-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+}
+
+.logo .dot {
+    color: var(--accent-orange);
+}
+/* Стилі для горизонтального списку навігації */
+.nav-links {
+    display: flex;
+    gap: 40px; /* Відстань між кнопками меню */
+    list-style: none; /* Прибираємо крапки списку */
+}
+
+.nav-links a {
+    text-decoration: none; /* Прибираємо підкреслення */
+    color: var(--text-gray);
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
+}
+
+/* Ефект при наведенні мишки */
+.nav-links a:hover {
+    color: var(--text-white);
+}
+
+/* Активний пункт меню (де ми зараз знаходимось) */
+.nav-links a.active {
+    color: var(--accent-orange);
+}
+
+/* Робимо так, щоб при скролі шапка мала ледь помітну лінію знизу та трохи прозорий фон */
+.top-nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 25px 0;
+    /* Чорний фон з легким ефектом прозорості (95%) */
+    background-color: rgba(5, 5, 5, 0.95); 
+    backdrop-filter: blur(10px); /* Розмиває те, що проїжджає під шапкою */
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Ледь помітна сіра лінія */
+    z-index: 100;
+}
+
+.lang-switcher {
+    display: flex;
+    gap: 20px;
+}
+
+.lang-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-gray);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    font-family: 'Inter', sans-serif;
+    text-transform: uppercase;
+}
+
+.lang-btn:hover {
+    color: var(--text-white);
+}
+
+/* Мінімалістичний акцент для вибраної мови (просто помаранчевий текст) */
+.lang-btn.active {
+    color: var(--accent-orange);
+}
+
+/* ========================================== */
+/* 3. ГОЛОВНИЙ ЕКРАН (HERO)                   */
+/* ========================================== */
+
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center; /* Центруємо по вертикалі */
+    /* Але текст тепер притиснутий до лівого краю (через .container) */
+}
+
+.hero-title {
+    font-size: clamp(4rem, 8vw, 7rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    margin-bottom: 30px;
+    color: var(--text-white);
+    
+    /* Додаємо магію анімації */
+    opacity: 0; /* Спочатку робимо текст повністю прозорим */
+    /* Запускаємо анімацію: триває 1 сек, плавна крива швидкості, залишається в кінці (forwards) */
+    animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+}
+
+.hero-title .highlight {
+    color: var(--accent-orange);
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-gray);
+    max-width: 500px;
+    font-weight: 400;
+    
+    /* Додаємо магію анімації для підзаголовка */
+    opacity: 0;
+    animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 0.3s; /* ВАЖЛИВО: Затримка в 0.3 секунди, щоб він з'явився ПІСЛЯ заголовка */
+}
+/* ========================================== */
+/* 4. АНІМАЦІЇ ПОЯВИ (ANIMATIONS)             */
+/* ========================================== */
+
+/* Анімація плавного спливання знизу вгору */
+@keyframes fadeUp {
+    0% {
+        opacity: 0;
+        transform: translateY(40px); /* Починаємо на 40 пікселів нижче */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0); /* Стаємо на своє фінальне місце */
+    }
+}
+
+/* ========================================== */
+/* 5. БАЗОВІ СЕКЦІЇ (ДЛЯ СКРОЛУ)              */
+/* ========================================== */
+
+.section {
+    min-height: 100vh; /* Кожна секція займає 100% висоти екрану */
+    display: flex;
+    align-items: center;
+    padding-top: 80px; /* Відступ зверху, щоб наша фіксована шапка не перекривала контент */
+}
+
+.section h2 {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--text-white);
+    opacity: 0.2; /* Поки що зробимо текст напівпрозорим, як "заглушку" */
+    text-align: center;
+}
+/* ========================================== */
+/* 6. СЕКЦІЯ ПРОЄКТІВ                         */
+/* ========================================== */
+
+.section-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    margin-bottom: 60px;
+    letter-spacing: -1px;
+    color: var(--text-white);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1); /* Тонка лінія під заголовком */
+    padding-bottom: 20px;
+}
+
+/* Сітка для проєктів (якщо їх буде кілька, вони стануть один під одним) */
+.projects-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 80px; /* Велика відстань між проєктами */
+}
+
+/* Картка проєкту: зліва картинка, справа текст */
+.project-card {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr; /* Картинка трохи ширша за текст */
+    gap: 50px;
+    align-items: center;
+}
+
+/* Заглушка для скріншоту сайту */
+.project-image .image-placeholder {
+    width: 100%;
+    aspect-ratio: 16 / 9; /* Пропорції екрану ноутбука */
+    background-color: #0f0f0f; /* Трохи світліший за фон сайту */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-gray);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: border-color 0.3s ease;
+}
+
+/* При наведенні на проєкт рамка картинки стає помаранчевою */
+.project-card:hover .image-placeholder {
+    border-color: var(--accent-orange);
+}
+
+.project-info h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--text-white);
+}
+
+.project-desc {
+    font-size: 1.1rem;
+    color: var(--text-gray);
+    margin-bottom: 30px;
+}
+
+/* Теги технологій (маленькі строгі рамочки) */
+.tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 40px;
+}
+
+.tech-stack span {
+    font-size: 0.8rem;
+    color: var(--text-white);
+    border: 1px solid var(--text-gray);
+    padding: 6px 14px;
+    border-radius: 4px; /* Легке закруглення, майже квадратне */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Кнопка-посилання */
+.btn-link {
+    display: inline-block;
+    color: var(--accent-orange);
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+/* Стрілочка вистрибує при наведенні */
+.btn-link:hover {
+    color: #ff7733; /* Трохи світліший помаранчевий */
+    transform: translateX(10px); /* Зсув вправо */
+}
+
+/* Адаптивність: на мобільних телефонах картинка і текст стають в стовпчик */
+@media (max-width: 900px) {
+    .project-card {
+        grid-template-columns: 1fr; /* Одна колонка */
+        gap: 30px;
+    }
+}
+/* ========================================== */
+/* СТИЛІ ДЛЯ КАРТИНКИ ПРОЄКТУ (BRUTALISM)     */
+/* ========================================== */
+
+/* ========================================== */
+/* СТИЛІ ДЛЯ КАРТИНКИ ПРОЄКТУ (BRUTALISM)     */
+/* ========================================== */
+
+.project-image {
+    width: 100%;
+    /* Робимо цей блок відносним (relative), щоб підказка була всередині */
+    position: relative; 
+    overflow: hidden; 
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: #0f0f0f; /* Колір заглушки */
+    transition: border-color 0.3s ease;
+}
+
+.portfolio-img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: contain;
+    display: block;
+    object-position: top;
+    /* Магія Бруталізму: чорно-біла */
+    filter: grayscale(100%) opacity(0.8);
+    transition: transform 0.5s ease, filter 0.5s ease;
+}
+
+/* ========================================== */
+/* НОВА ПІДКАЗКА ПОНОВЕРХ КАРТИНКИ            */
+/* ========================================== */
+
+.image-overlay-hint {
+    /* Абсолютне позиціонування поверх картинки */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    
+    /* Темний, напівпрозорий градієнт-підкладка */
+    background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+    
+    color: var(--text-white);
+    padding: 30px 20px 20px; /* Більший відступ зверху для градієнта */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: 'Inter', sans-serif;
+    
+    /* Ховаємо її за замовчуванням (через opacity) */
+    opacity: 1; /* Спочатку видно */
+    transition: opacity 0.3s ease;
+    z-index: 2;
+}
+
+/* Маленька помаранчева цятка */
+.image-overlay-hint .dot-orange {
+    width: 8px;
+    height: 8px;
+    background-color: var(--accent-orange);
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255, 85, 0, 0.5); /* Світіння */
+}
+
+/* ========================================== */
+/* ХОВЕР ЛОГІКА (Тільки на зображення!)       */
+/* ========================================== */
+
+/* 1. Коли наводимо на .project-image: */
+.project-image:hover .portfolio-img {
+    filter: grayscale(0%) opacity(1); /* Колір! */
+    transform: scale(1.05); /* Легке наближення */
+}
+
+.project-image:hover {
+    border-color: var(--accent-orange); /* Рамка */
+}
+
+/* 2. Ховаємо підказку, коли зображення стає кольоровим */
+.project-image:hover .image-overlay-hint {
+    opacity: 0; /* Зникає плавно */
+}
+/* ========================================== */
+/* 8. ФОРМА ВІДГУКУ (BRUTALISM)               */
+/* ========================================== */
+
+.review-form-container {
+    margin-top: 80px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    max-width: 600px; /* Форма не розтягується на весь екран */
+}
+
+.review-form-container h3 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: var(--text-white);
+}
+
+.brutal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.brutal-form input,
+.brutal-form textarea {
+    background: transparent;
+    border: 1px solid var(--text-gray);
+    color: var(--text-white);
+    padding: 15px;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    outline: none;
+}
+
+/* Коли користувач клікає на поле (фокус) */
+.brutal-form input:focus,
+.brutal-form textarea:focus {
+    border-color: var(--accent-orange);
+    /* Брутальний ефект: масивна помаранчева лінія зліва всередині поля */
+    box-shadow: inset 4px 0 0 var(--accent-orange); 
+}
+
+/* Інтерактивні зірочки */
+.rating-select {
+    display: flex;
+    gap: 10px;
+    font-size: 2.5rem; /* Великі зірки */
+    cursor: pointer;
+    color: var(--text-gray);
+    margin-bottom: 10px;
+}
+
+.rating-select .star {
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+/* Коли зірка активна (клікнули) або на неї навели (через JS) */
+.rating-select .star.hovered,
+.rating-select .star.active {
+    color: var(--accent-orange);
+}
+
+.rating-select .star.hovered {
+    transform: scale(1.1); /* Трохи збільшується */
+}
+
+/* Кнопка відправки */
+.btn-submit {
+    background: var(--text-white);
+    color: var(--bg-black);
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+    align-self: flex-start; /* Кнопка не розтягується, а займає стільки місця, скільки треба */
+}
+
+.btn-submit:hover {
+    background: var(--accent-orange);
+    color: var(--text-white);
+}
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.review-date {
+    font-size: 0.8rem;
+    color: var(--text-gray);
+    font-weight: 500;
+}
+
+/* Оновимо колір порожніх зірок для контрасту */
+.stars {
+    color: var(--accent-orange);
+}
+/* Кнопка чату */
+#chat-widget {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    z-index: 1000;
+}
+
+#chat-trigger {
+    width: 60px;
+    height: 60px;
+    background: var(--accent-orange);
+    border: none;
+    border-radius: 0; /* Бруталізм — квадрати! */
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 5px 5px 0 var(--text-white);
+    transition: transform 0.2s;
+}
+
+#chat-trigger:active { transform: translate(2px, 2px); }
+
+
+/* ========================================== */
+/* СТИЛІ ДЛЯ ПОВІДОМЛЕНЬ ТА ГАЛОЧОК           */
+/* ========================================== */
+
+
+/* ========================================== */
+/* СЕКЦІЯ КОНТАКТІВ (БРУТАЛІЗМ)               */
+/* ========================================== */
+
+.brutal-contact-section {
+    min-height: 80vh;
+    background-color: #000000; /* Глибокий темний фон */
+    /* Магія: створюємо хакерську сітку на фоні */
+    padding: 100px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.contact-container {
+    max-width: 800px;
+    width: 100%;
+}
+
+/* Величезний заголовок з "жорсткою" тіню */
+.brutal-title {
+    font-size: 4rem;
+    font-weight: 800;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    /* Помаранчева тінь у стилі бруталізму */
+    text-shadow: 4px 4px 0 #ff5500; 
+}
+
+.contact-subtitle {
+    color: #94a3b8;
+    font-size: 1.1rem;
+    margin-bottom: 50px;
+}
+
+/* Контейнер для кнопок */
+.social-links-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 60px;
+}
+
+/* Спільний стиль для кнопок-посилань */
+.brutal-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 30px;
+    background: #09090b;
+    color: #f1f5f9;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    
+    /* Жорсткі рамки і тіні */
+    border: 2px solid #ff5500;
+    box-shadow: 6px 6px 0 #ff5500;
+    transition: all 0.2s ease;
+}
+
+.brutal-btn i {
+    font-size: 1.5rem;
+}
+
+/* Анімація натискання (кнопка "вдавлюється") */
+.brutal-btn:hover {
+    transform: translate(4px, 4px);
+    box-shadow: 2px 2px 0 #ff5500;
+    background: rgba(255, 85, 0, 0.1);
+    color: #ffffff;
+}
+
+/* Окрема велика кнопка для виклику чату */
+.brutal-chat-btn {
+    background: #ff5500;
+    color: #ffffff;
+    border: none;
+    padding: 18px 40px;
+    font-size: 1.2rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    
+    /* Жорстка чорна тінь, щоб кнопка "випирала" */
+    box-shadow: 8px 8px 0 #000000;
+    border: 2px solid #000000;
+    transition: all 0.2s ease;
+}
+
+.brutal-chat-btn i {
+    font-size: 1.8rem;
+}
+
+.brutal-chat-btn:hover {
+    transform: translate(4px, 4px);
+    box-shadow: 4px 4px 0 #000000;
+    background: #e64d00;
+}
+
+/* Адаптивність для мобільних */
+@media (max-width: 600px) {
+    .brutal-title {
+        font-size: 2.5rem;
+        text-shadow: 3px 3px 0 #ff5500; 
+    }
+    .brutal-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+/* Елегантне розділення секцій */
+section {
+    padding-top: 120px; 
+    padding-bottom: 120px;
+    /* Дуже тонка, напівпрозора біла лінія знизу кожної секції */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08); 
+}
+
+/* Забираємо лінію в останньої секції (Контакти), щоб не висіла в самому низу екрану */
+section:last-of-type {
+    border-bottom: none;
+}
+/* Секція відгуків - Патерн з крапок */
+#reviews {
+    background-color: #000000;
+    padding-top: 100px;
+    padding-bottom: 100px;
+    
+    /* Товсті жорсткі рамки зверху і знизу, щоб "запечатати" секцію */
+    border-top: 2px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.05);
+}
+/* ========================================== */
+/* АНІМАЦІЇ ПРИ СКРОЛІ (SCROLL REVEAL)        */
+/* ========================================== */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(50px); /* Зсув вниз */
+    /* Плавний перехід, як у твоєму Hero екрані */
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); 
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0); /* Повернення на місце */
+}
+.logo a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.brutal-logo {
+    height: 35px; /* Регулюй висоту тут під свій смак */
+    width: auto;
+    display: block;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+/* Ефект при наведенні */
+.logo a:hover .brutal-logo {
+    transform: scale(1.1); /* Трохи збільшується */
+    filter: drop-shadow(0 0 8px var(--primary-color)); /* Додає легке помаранчеве світіння */
+}
+/* =========================================
+   СТАН ЗАВАНТАЖЕННЯ (LOADER)
+   ========================================= */
+.loader-container {
+    text-align: center;
+    padding: 40px 20px;
+    color: #888;
+    width: 100%;
+    grid-column: 1 / -1; /* Щоб лоадер займав всю ширину сітки */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #1a1a1a;
+    border-top: 4px solid #FF5500; /* Твій фірмовий оранжевий */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.loader-hint {
+    font-size: 12px;
+    color: #555;
+    margin-top: 5px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
