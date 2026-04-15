@@ -4,113 +4,247 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nazar | Frontend Developer</title>
+    <meta name="description" content="Nazar - Frontend Developer from Ukraine. Modern IDE style portfolio.">
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles/style.css">
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
 </head>
-<body>
-
-    <nav class="top-nav">
-        <div class="container nav-wrapper">
-            <div class="logo">
-    <a href="#home">
-        <svg class="brutal-logo" viewBox="0 0 366 497" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M1.00001 52.8118V496.337L86.5 421.773V162.172L1.00001 52.8118Z" fill="#333333"/>
-            <path d="M122.5 212L277.338 352.631L276.5 70L365.5 1.07288e-06V497L122.5 329L122.5 212Z" fill="#FF6100"/>
-            <path d="M0 0H89L244.5 171.645V275L150.605 193.307L0 0Z" fill="#FF6100"/>
-        </svg>
-    </a>
-</div>
-            <button class="burger-menu" id="burger-menu">
-            ☰
-        </button>
-        
-            <ul class="nav-links">
-                <li><a href="#home" class="active" data-i18n="nav_home">Home</a></li>
-                <li><a href="#projects" data-i18n="nav_projects">Projects</a></li>
-                <li><a href="#reviews" data-i18n="nav_reviews">Reviews</a></li>
-                <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
-            </ul>           
-        </div>
-    </nav>
-
-    <header class="hero" id="home">
-        <div class="container">
-            <h1 class="hero-title" data-i18n="hero_title">Hi, I'm <br><span class="highlight">Nazar</span></h1>
-            <p class="hero-subtitle" data-i18n="hero_subtitle">Frontend Developer from Ukraine, living in Italy. I build fast, modern, and brutalist web interfaces.</p>
-        </div>
-    </header>
-
-    <section id="projects" class="section">
-        <div class="container">
-            <h2 class="section-title reveal" data-i18n="section_projects_title">Selected Works</h2>
-
-            <div class="projects-grid">
-                <article class="project-card reveal">
-    
-    
+<body class="ide-theme">
+    <div class="app-container">
+        <!-- HEADER -->
+        <header class="app-header">
+            <div class="header-logo" data-i18n="nav_logo">nazar-portfolio</div>
+            <nav class="header-nav">
+                <button class="nav-tab active" data-target="view-hello" data-i18n="nav_home">_hello</button>
+                <button class="nav-tab" data-target="view-projects" data-i18n="nav_projects" id="tab_projects">_projects</button>
+                <button class="nav-tab" data-target="view-about" data-i18n="nav_reviews">_reviews</button>
+            </nav>
+            <div class="header-contact">
+                <button class="nav-tab" data-target="view-contact" data-i18n="nav_contact" style="border-right: none;">_contact-me</button>
+                <div class="lang-switcher">
+                    <button class="lang-btn active" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="ua">UA</button>
+                </div>
             </div>
-        </div>
-    </section>
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-btn"><i class='bx bx-menu'></i></button>
+        </header>
 
-    <section id="reviews" class="section">
-        <div class="container">
-            <h2 class="section-title reveal" data-i18n="section_reviews_title">Client Reviews</h2>
-
-            <div class="reviews-grid reveal" id="reviews-container">
-    </div>
-
-            <div class="review-form-container reveal">
-                <h3 data-i18n="leave_review_title">Leave a Review</h3>
-                <form id="review-form" class="brutal-form">
-                    
-                    <div class="rating-select">
-                        <span class="star" data-value="1">★</span>
-                        <span class="star" data-value="2">★</span>
-                        <span class="star" data-value="3">★</span>
-                        <span class="star" data-value="4">★</span>
-                        <span class="star" data-value="5">★</span>
-                        <input type="hidden" id="rating-value" value="0">
+        <!-- MAIN LAYOUT -->
+        <div class="app-body">
+            
+            <!-- VIEW: HELLO -->
+            <main class="view-section active" id="view-hello">
+                <div class="hello-layout">
+                    <div class="hello-text">
+                        <p class="greeting" data-i18n="greeting">Hi all. I am</p>
+                        <h1 class="name">Nazar H.</h1>
+                        <h2 class="role" data-i18n="role_subtitle">> Front-end developer</h2>
+                        
+                        <div class="code-snippet">
+                            <p class="comment" data-i18n="comment_github">// find my profile on Github:</p>
+                            <p><span class="keyword">const</span> <span class="variable">githubLink</span> = <a href="https://github.com/nazarhlbv" target="_blank" class="string">"https://github.com/nazarhlbv"</a>;</p>
+                            <p class="comment" style="margin-top: 15px;" data-i18n="comment_status">// available for freelance:</p>
+                            <p><span class="keyword">const</span> <span class="variable">status</span> = <span class="string" data-i18n="status_string">"Available for work"</span>;</p>
+                        </div>
                     </div>
+                    <div class="hello-visual">
+                        <div class="game-wrapper desktop-only">
+                            <div class="game-container">
+                                <div class="game-ui-top">
+                                    <span class="mac-dot red"></span>
+                                    <span class="mac-dot yellow"></span>
+                                    <span class="mac-dot green"></span>
+                                </div>
+                                <canvas id="snake-game" width="200" height="300"></canvas>
+                                
+                                <div class="game-overlay" id="game-overlay">
+                                    <button class="btn-start" id="btn-start-game" data-i18n="game_start">start-game()</button>
+                                </div>
+                                
+                                <div class="game-over-overlay" id="game-over-overlay" style="display: none;">
+                                    <div class="game-over-title" data-i18n="game_over">GAME OVER!</div>
+                                    <button class="btn-start" id="btn-restart-game" data-i18n="game_restart">start-again()</button>
+                                </div>
+                            </div>
+                            
+                            <div class="game-dashboard">
+                                <div class="game-instructions">
+                                    <p class="comment" data-i18n="game_use_keyboard">// use keyboard</p>
+                                    <p class="comment" data-i18n="game_arrows">// arrows to play</p>
+                                    <div class="keys-grid">
+                                        <div class="key-row">
+                                            <span class="key-btn empty"></span>
+                                            <span class="key-btn">▲</span>
+                                            <span class="key-btn empty"></span>
+                                        </div>
+                                        <div class="key-row">
+                                            <span class="key-btn">◀</span>
+                                            <span class="key-btn">▼</span>
+                                            <span class="key-btn">▶</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="game-score-box">
+                                    <p class="comment" data-i18n="game_score">// score</p>
+                                    <p class="score-value" id="game-score">0</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mobile-only game-fallback">
+                            <i class='bx bx-code-alt'></i>
+                            <p class="comment" data-i18n="game_mobile">// Snake game disabled on mobile</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
 
-                    <input type="text" id="reviewer-name" placeholder="Your Name" required data-i18n-placeholder="placeholder_name">
-                    <textarea id="reviewer-text" rows="4" placeholder="Your Feedback" required data-i18n-placeholder="placeholder_feedback"></textarea>
-                    
-                    <button type="submit" class="btn-submit" data-i18n="btn_submit_review">Send Review</button>
-                </form>
+            <!-- VIEW: PROJECTS -->
+            <main class="view-section" id="view-projects">
+                <aside class="app-sidebar">
+                    <div class="sidebar-title">
+                        <i class='bx bxs-down-arrow'></i> <span data-i18n="sidebar_projects">projects</span>
+                    </div>
+                    <div class="sidebar-filters" id="tech-filters">
+                        <!-- Filters generated by JS, like checkboxes for React, CSS -->
+                        <label class="filter-item"><input type="checkbox" value="HTML" checked> <span class="icon" style="color: #E34F26"><i class='bx bxl-html5'></i></span> HTML</label>
+                        <label class="filter-item"><input type="checkbox" value="CSS" checked> <span class="icon" style="color: #1572B6"><i class='bx bxl-css3'></i></span> CSS</label>
+                        <label class="filter-item"><input type="checkbox" value="JavaScript" checked> <span class="icon" style="color: #F7DF1E"><i class='bx bxl-javascript'></i></span> JavaScript</label>
+                        <label class="filter-item"><input type="checkbox" value="React" checked> <span class="icon" style="color: #61DAFB"><i class='bx bxl-react'></i></span> React</label>
+                        <label class="filter-item"><input type="checkbox" value="Figma" checked> <span class="icon" style="color: #F24E1E"><i class='bx bxl-figma'></i></span> Figma</label>
+                    </div>
+                </aside>
+                <div class="app-content">
+                    <div class="content-tabs">
+                        <div class="active-tab"><span data-i18n="tab_all_projects">_All-Projects</span> <i class='bx bx-x'></i></div>
+                    </div>
+                    <div class="content-scroll">
+                        <div class="projects-grid" id="projects-grid">
+                            <!-- Projects injected here by script.js -->
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- VIEW: REVIEWS -->
+            <main class="view-section" id="view-about">
+                 <aside class="app-sidebar">
+                    <div class="sidebar-title"><i class='bx bxs-down-arrow'></i> <span data-i18n="sidebar_feedback">feedback</span></div>
+                    <div class="sidebar-item active" id="btn-show-reviews"><i class='bx bx-message-rounded-dots'></i> <span data-i18n="sidebar_client_reviews">Client Reviews</span></div>
+                    <div class="sidebar-item" id="btn-show-add"><i class='bx bx-edit-alt'></i> <span data-i18n="sidebar_add_review">Add Review</span></div>
+                </aside>
+                <div class="app-content">
+                    <div class="content-tabs">
+                        <div class="active-tab"><span data-i18n="tab_reviews">_Reviews</span> <i class='bx bx-x'></i></div>
+                    </div>
+                    <div class="content-scroll">
+                        <div class="reviews-layout">
+                            <div class="reviews-view" id="reviews-list-view">
+                                <div class="reviews-grid" id="reviews-container">
+                                    <!-- Reviews injected here -->
+                                </div>
+                            </div>
+                            
+                            <div class="add-review-panel" id="add-review-panel" style="display: none;">
+                                <h3 class="form-title" data-i18n="leave_review_title">Write a log...</h3>
+                                <form id="review-form" class="review-form">
+                                    <div class="rating-select">
+                                        <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
+                                        <input type="hidden" id="rating-value" value="0">
+                                    </div>
+                                    
+                                    <div class="input-group">
+                                        <label data-i18n="label_name">_name:</label>
+                                        <input type="text" id="reviewer-name" data-i18n-placeholder="placeholder_name" required>
+                                    </div>
+                                    <div class="input-group">
+                                        <label data-i18n="label_feedback">_feedback:</label>
+                                        <textarea id="reviewer-text" rows="4" data-i18n-placeholder="placeholder_feedback" required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn-primary" data-i18n="btn_submit_review">submit-review()</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- VIEW: CONTACT -->
+            <main class="view-section" id="view-contact">
+                <aside class="app-sidebar">
+                    <div class="sidebar-title"><i class='bx bxs-down-arrow'></i> <span data-i18n="sidebar_contacts">contacts</span></div>
+                    <a href="https://t.me/nazarhlbv" target="_blank" class="sidebar-contact"><i class='bx bxl-telegram'></i> telegram</a>
+                    <a href="https://wa.me/380968238181" target="_blank" class="sidebar-contact"><i class='bx bxl-whatsapp'></i> whatsapp</a>
+                    <a href="mailto:example@gmail.com" class="sidebar-contact"><i class='bx bx-envelope'></i> email</a>
+                </aside>
+                <div class="app-content">
+                     <div class="content-tabs">
+                        <div class="active-tab"><span data-i18n="tab_contacts">_contacts</span> <i class='bx bx-x'></i></div>
+                    </div>
+                    <div class="content-scroll">
+                        <div class="contact-layout">
+                            <div class="contact-form-side">
+                                <h3 class="form-title" data-i18n="contact_title">_contact-me</h3>
+                                <form class="review-form" id="contact-form">
+                                    <div class="input-group">
+                                        <label data-i18n="label_name">_name:</label>
+                                        <input type="text" id="contact-name" data-i18n-placeholder="placeholder_name" required>
+                                    </div>
+                                    <div class="input-group">
+                                        <label data-i18n="label_email">_email:</label>
+                                        <input type="email" id="contact-email" data-i18n-placeholder="placeholder_email" required>
+                                    </div>
+                                    <div class="input-group">
+                                        <label data-i18n="label_message">_message:</label>
+                                        <textarea id="contact-msg" rows="5" data-i18n-placeholder="placeholder_feedback" required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn-primary" data-i18n="btn_submit_message">submit-message()</button>
+                                </form>
+                            </div>
+                            
+                            <div class="contact-code-side">
+                                <div class="contact-code">
+    <div class="code-line"><span class="keyword">const</span> <span class="variable">button</span> = <span class="method">document</span>.<span class="method">querySelector</span>(<span class="string">'#sendBtn'</span>);</div>
+    <br>
+    <div class="code-line"><span class="comment">/**</span></div>
+    <div class="code-line"><span class="comment" data-i18n="comment_send_1"> * Send me a message,</span></div>
+    <div class="code-line"><span class="comment" data-i18n="comment_send_2"> * I will reply as soon as possible.</span></div>
+    <div class="code-line"><span class="comment"> */</span></div>
+    <div class="code-line"><span class="keyword">const</span> <span class="variable">message</span> = {</div>
+    <div class="code-line indent-1">name: <span class="string" id="code-name">""</span>,</div>
+    <div class="code-line indent-1">email: <span class="string" id="code-email">""</span>,</div>
+    <div class="code-line indent-1">message: <span class="string" id="code-msg">""</span>,</div>
+    <div class="code-line">}</div>
+    <br>
+    <div class="code-line"><span class="method" data-i18n="comment_waiting">Waiting for connections...</span></div>
+    <br>
+    <div class="code-line"><span class="variable">button</span>.<span class="method">addEventListener</span>(<span class="string">'click'</span>, () => {</div>
+    <div class="code-line indent-1"><span class="method">form</span>.<span class="method">send</span>(<span class="variable">message</span>);</div>
+    <div class="code-line">})</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="app-footer">
+            <div class="footer-left">
+                <span data-i18n="footer_find_me">find me in:</span>
+                <a href="https://t.me/nazarhlbv" target="_blank" class="footer-icon"><i class='bx bxl-telegram'></i></a>
+                <a href="https://www.instagram.com/nazarhlbv/" target="_blank" class="footer-icon"><i class='bx bxl-instagram'></i></a>
             </div>
-
-        </div>
-    </section>
-
-   
-
-    
-    
-<section id="contact" class="brutal-contact-section reveal">
-        <div class="contact-container">
-        <h2 class="brutal-title reveal" data-i18n="contact_title">Contact</h2>
-        
-        <p class="contact-subtitle reveal" data-i18n="contact_subtitle">
-            Привіт! Напиши мені повідомлення, і ми обговоримо твій проєкт.
-        </p>
-
-        <div class="social-links-grid reveal">
-            <a href="https://t.me/nazarhlbv" target="_blank" class="brutal-btn telegram">
-                <i class='bx bxl-telegram'></i> <span data-i18n="btn_telegram">Telegram</span>
-            </a>
-
-            <a href="https://wa.me/380968238181" target="_blank" class="brutal-btn whatsapp">
-                <i class='bx bxl-whatsapp'></i> <span data-i18n="btn_whatsapp">WhatsApp</span>
-            </a>
-
-            <a href="https://www.instagram.com/nazarhlbv/" target="_blank" class="brutal-btn github">
-                <i class='bx bxl-instagram'></i> <span data-i18n="btn_instagram">Instagram</span>
-            </a>
-        </div>
+            <div class="footer-right">
+                <a href="https://github.com/nazarhlbv" target="_blank">@nazarhlbv <i class='bx bxl-github'></i></a>
+            </div>
+        </footer>
     </div>
-</section>
-<script src="scripts/script.js" defer></script>
+    
+    <script src="scripts/script.js" defer></script>
 </body>
 </html>
